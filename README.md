@@ -6,7 +6,7 @@ Reuse(Struct, Enum)
 
 <!-- Include donate button if people find it useful later. -->
 
-[![Build Status](https://travis-ci.org/steadylearner/born.svg?branch=master)](https://travis-ci.org/steadylearner/born)
+<!-- [![Build Status](https://travis-ci.org/steadylearner/born.svg?branch=master)](https://travis-ci.org/steadylearner/born) -->
 [![Image Crate](https://img.shields.io/crates/v/born.svg)](https://crates.io/crates/born)
 [![Image Doc](https://img.shields.io/badge/rust-documentation-blue.svg)](https://docs.rs/born/
 )
@@ -313,6 +313,8 @@ $git clone git@github.com:steadylearner/born.git && cargo test pass
 2. `$cargo test fail` to run failing tests. You need to install [trybuild] first.
 
 If you want to see how the macros from this package expand, use `$cargo test macros`. You need to install [rustfmt](https://github.com/rust-lang/rustfmt) and [cargo-expand](https://github.com/dtolnay/cargo-expand) to use it before.
+
+When you use serde or others with it, cargo-expand command might show errors but that doesn't mean that the code from this package will fail.
 
 ```console
 $rustup component add rustfmt && cargo install cargo-expand
