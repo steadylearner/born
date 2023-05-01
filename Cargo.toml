@@ -33,4 +33,17 @@ doc-comment = "0.3.3"
 # New feature to use born with serde derive macro.
 serde = { version = "1.0.160", features = ["derive"] }
 serde_json = "1.0.96"
+# examples
+axum = "0.6.18"
+tokio = { version = "1.28.0", features = ["full"] }
+tracing = "0.1.37"
+tracing-subscriber = { version = "0.3.17", features = ["env-filter"] }
+
+# [[example]]
+# name = "axum_example"
+#  = "examples/axum_example"
+
+[[example]]
+name = "axum_example"
+path = "examples/axum_example/src/main.rs"
 
