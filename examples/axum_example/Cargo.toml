@@ -1,0 +1,15 @@
+[package]
+name = "axum_example"
+version = "0.1.0"
+edition = "2021"
+
+[dependencies]
+born = { path = "../" }
+# These below should be included in the main Cargo.toml for examples test to work.
+axum = "0.6.18"
+serde = { version = "1.0.160", features = ["derive"] }
+serde_json = "1.0.96"
+tokio = { version = "1.28.0", features = ["full"] }
+tracing = "0.1.37"
+tracing-subscriber = { version = "0.3.17", features = ["env-filter"] }
+# born = { git = "https://github.com/steadylearner/born", branch = "master" }
