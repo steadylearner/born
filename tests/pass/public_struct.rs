@@ -17,5 +17,6 @@ fn pass_public_struct() {
     let message = MessageBase {
         text: "First Message".into(),
     };
+    
     println!("{}", &message.text);
 }

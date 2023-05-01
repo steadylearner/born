@@ -20,7 +20,6 @@
 /// ```
 #[macro_export]
 macro_rules! private_struct {
-    // (struct $commonstruct:ident { $( $commonfield:ident: $commonty:ty ),+ $(,)? }) => {
     (
         $(#[$commonattrs:meta])*
         struct $commonstruct:ident {
@@ -68,3 +67,4 @@ macro_rules! private_struct {
         }
     };
 }
+

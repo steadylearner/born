@@ -32,9 +32,10 @@
 #[macro_export]
 macro_rules! public_enum {
     (
+        // , is required to extend the definition and it is handled by a compiler and Rust rules
         $(#[$commonattre:meta])*
         pub enum $commonenum:ident { 
-            $( $(#[$commonattrf:meta])? $commonfield:tt )+
+            $( $commonfieldlist:tt )+
         }
     ) => {
         nested_macro! {
@@ -44,7 +45,7 @@ macro_rules! public_enum {
                         $(#[$commonattre])*
                         $s(#[$attre])*
                         pub enum $commonenum {
-                            $( $(#[$commonattrf])? $commonfield )+
+                            $( $commonfieldlist )+
                         }
                     };
 
@@ -54,22 +55,22 @@ macro_rules! public_enum {
                     ) => {
                         $(#[$commonattre])*
                         $s(#[$attre])*
-                        enum $name {
-                            $( $(#[$commonattrf])? $commonfield, )*
+                        pub enum $name {
+                            $( $commonfieldlist )+
                         }
                     };
 
                     (
                         $s(#[$attre:meta])*
                         pub enum $name:ident { 
-                            $s( $s(#[$attrf:meta])? $field:tt )+
+                            $s( $fieldlist:tt )+
                         }
                     ) => {
                         $(#[$commonattre])*
                         $s(#[$attre])*
                         pub enum $name {
-                            $( $(#[$commonattrf])? $commonfield )+
-                            $s( $s(#[$attrf])? $field )+
+                            $( $commonfieldlist )+
+                            $s( $fieldlist )+
                         }
                     };
                 }
@@ -77,4 +78,3 @@ macro_rules! public_enum {
         }
     };
 }
-
