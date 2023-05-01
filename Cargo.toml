@@ -39,11 +39,13 @@ tokio = { version = "1.28.0", features = ["full"] }
 tracing = "0.1.37"
 tracing-subscriber = { version = "0.3.17", features = ["env-filter"] }
 
-# [[example]]
-# name = "axum_example"
-#  = "examples/axum_example"
+# $cargo run --example <example_name>
 
 [[example]]
 name = "axum_example"
 path = "examples/axum_example/src/main.rs"
+
+[[example]]
+name = "blog"
+path = "examples/blog/src/main.rs"
 
