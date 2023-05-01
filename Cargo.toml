@@ -1,0 +1,36 @@
+[package]
+name = "born"
+version = "0.0.1"
+# It has to be short.
+authors = ["Steadylearner <steadylearnerdev@gmail.com>"]
+edition = "2018"
+license = "MIT OR Apache-2.0"
+description = "Reuse fields from Struct and Enum definition with functional macros."
+repository = "https://github.com/steadylearner/born"
+documentation = "https://docs.rs/born"
+keywords = ["struct", "enum", "macro", "born", "inherit", "reuse", "duplication", "steadylearner"]
+# error: api errors (status 200 OK): invalid upload request: invalid length 6, expected at most 5 categories per crate at line 1 column 7931
+# https://crates.io/category_slugs, Should have used only what are inside the list.
+categories = ["no-std", "rust-patterns"]
+readme = "README.md" # It is used at https://crates.io/crates/born
+exclude = [
+    "*.py",
+    ".ignore",
+    ".gitignore",
+    "tests/",
+    "*.json", # Cannot exclude .cargo_vcs_info.json, .rutc_info.json etc
+    ".cargo_vcs_info.json", # Cannot exclude .cargo_vcs_info.json
+    ".travis.yml",
+    "CHANGELOG.md",
+    "*.png",
+]
+
+[dev-dependencies]
+# Test
+macrotest = "1.0.5"
+trybuild = "1.0.35"
+doc-comment = "0.3.3"
+# New feature to use born with serde derive macro.
+serde = { version = "1.0.160", features = ["derive"] }
+serde_json = "1.0.96"
+

@@ -1,0 +1,7 @@
+# https://github.com/passcod/cargo-watch#ignore-files
+# Use it to help cargo-watch but it is likely not working well.
+# (It reloads when edit Python files even with this.)
+
+*.py
+*.md
+*.toml

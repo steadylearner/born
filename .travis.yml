@@ -1,0 +1,13 @@
+language: rust
+rust:
+  - stable
+  - beta
+  - nightly
+script:
+  - cargo test pass
+  - cargo test --doc
+jobs:
+  allow_failures:
+    - rust: nightly
+  fast_finish: true
+cache: cargo
