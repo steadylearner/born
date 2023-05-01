@@ -6,6 +6,7 @@
 /// # #[macro_use] extern crate born;
 /// # fn main() {
 /// private_struct!(
+///     // pub shouldn't be used before 'strut' when you use private_struct!
 ///     struct MessageBase {
 ///         text: String
 ///     }
