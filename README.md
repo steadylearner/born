@@ -1,5 +1,6 @@
 [trybuild]: https://github.com/dtolnay/trybuild
 [macrotest]: https://github.com/eupn/macrotest
+[axum]: https://github.com/tokio-rs/axum
 
 Reuse common parts of Struct and Enum
 =============
@@ -348,6 +349,23 @@ $rustup component add rustfmt && cargo install cargo-expand
 [macrotest] is based on [trybuild]. They are not that compatible to test with a single command and take long time.
 
 They make cargo to redownload the dependendencies and recompile everytime. For that reason, there are commands to test them separately.
+
+## Examples
+
+You can also test an example that works with [axum] with these commands.
+
+```console
+$cargo run --example axum_example
+```
+
+Then, use this CURL command to see it work.
+
+```console
+$curl -X POST \
+   -H "Content-Type: application/json" \
+   -d '{ "username": "username" }' \
+   http://localhost:3000/users
+```
 
 #### License
 
