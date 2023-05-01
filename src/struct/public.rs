@@ -34,106 +34,38 @@ macro_rules! public_struct {
         nested_macro! {
             ($s:tt) => {
                 macro_rules! $commonstruct {
-                    () => {
+                    ($s(#[$attrs:meta])*) => {
                         $(#[$commonattrs])*
-                        pub struct $commonstruct {
-                            $( $(#[$commonattrf])? $commonfieldpub $commonfield: $commonty, )+
-                        }
-                    };
-
-                    (#[derive($s($arg:tt)+)]) => {
-                        $(#[$commonattrs])*
-                        #[derive($s($arg)+)]
+                        $s(#[$attrs])*
                         pub struct $commonstruct {
                             $( $(#[$commonattrf])? $commonfieldpub $commonfield: $commonty, )+
                         }
                     };
 
                     (
-                        #[derive($s($arg:tt)+)] 
-                        #[serde($s($args:tt)+)]
-                    ) => {
-                        $(#[$commonattrs])*
-                        #[derive($s($arg)+)]
-                        #[serde($s($args)+)]
-                        pub struct $commonstruct {
-                            $( $(#[$commonattrf])? $commonfieldpub $commonfield: $commonty, )+
-                        }
-                    };
-
-                    (
-                        pub struct $name:ident { 
-                            $s( $s(#[$attrf:meta])? $pub:vis $field:ident: $ty:ty ),+ $s(,)* 
-                        }
-                    ) => {
-                        $(#[$commonattrs])*
-                        pub struct $name {
-                            $( $(#[$commonattrf])? $commonfieldpub $commonfield: $commonty, )+
-                            $s( $s(#[$attrf])? $pub $field: $ty ),+
-                        }
-                    };
-
-                    (
-                        #[derive($s($arg:tt)+)] 
-                        pub struct $name:ident { 
-                            $s( $s(#[$attrf:meta])? $pub:vis $field:ident: $ty:ty ),+ $s(,)* 
-                        }
-                    ) => {
-                        $(#[$commonattrs])*
-                        #[derive($s($arg)+)]
-                        pub struct $name {
-                            $( $(#[$commonattrf])? $commonfieldpub $commonfield: $commonty, )+
-                            $s( $s(#[$attrf])? $pub $field: $ty ),+
-                        }
-                    };
-
-                    (
-                        #[derive($s($arg:tt)+)] 
-                        #[serde($s($args:tt)+)] 
-                        pub struct $name:ident { 
-                            $s( $s(#[$attrf:meta])? $pub:vis $field:ident: $ty:ty ),+ $s(,)* 
-                        }
-                    ) => {
-                        $(#[$commonattrs])*
-                        #[derive($s($arg)+)]
-                        #[serde($s($args)+)]
-                        pub struct $name {
-                            $( $(#[$commonattrf])? $commonfieldpub $commonfield: $commonty, )+
-                            $s( $s(#[$attrf])? $pub $field: $ty ),+
-                        }
-                    };
-
-                    (pub struct $name:ident) => {
-                        $(#[$commonattrs])*
-                        pub struct $name {
-                            $( $(#[$commonattrf])? $commonfieldpub $commonfield: $commonty, )+
-                        }
-                    };
-                    
-                    (
-                        #[derive($s($arg:tt)+)] 
+                        $s(#[$attrs:meta])*
                         pub struct $name:ident
                     ) => {
                         $(#[$commonattrs])*
-                        #[derive($s($arg)+)]
+                        $s(#[$attrs])*
                         pub struct $name {
                             $( $(#[$commonattrf])? $commonfieldpub $commonfield: $commonty, )+
                         }
                     };
 
                     (
-                        #[derive($s($arg:tt)+)] 
-                        #[serde($s($args:tt)+)] 
-                        pub struct $name:ident
+                        $s(#[$attrs:meta])*
+                        pub struct $name:ident { 
+                            $s( $s(#[$attrf:meta])? $pub:vis $field:ident: $ty:ty ),+ $s(,)* 
+                        }
                     ) => {
                         $(#[$commonattrs])*
-                        #[derive($s($arg)+)]
-                        #[serde($s($args)+)]
+                        $s(#[$attrs])*
                         pub struct $name {
                             $( $(#[$commonattrf])? $commonfieldpub $commonfield: $commonty, )+
+                            $s( $s(#[$attrf])? $pub $field: $ty ),+
                         }
                     };
-
                 }
             }
         }

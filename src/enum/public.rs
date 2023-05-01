@@ -31,49 +31,49 @@
 /// ```
 #[macro_export]
 macro_rules! public_enum {
-    (pub enum $commonenum:ident { $( $commonfield:tt )+}) => {
+    (
+        $(#[$commonattre:meta])*
+        pub enum $commonenum:ident { 
+            $( $(#[$commonattrf:meta])? $commonfield:tt )+
+        }
+    ) => {
         nested_macro! {
             ($s:tt) => {
                 macro_rules! $commonenum {
-                    () => {
+                    ($s(#[$attre:meta])*) => {
+                        $(#[$commonattre])*
+                        $s(#[$attre])*
                         pub enum $commonenum {
-                            $( $commonfield )+
-                        }
-                    };
-                    (#[derive($s($arg:tt)+)]) => {
-                        #[derive($s($arg)+)]
-                        pub enum $commonenum {
-                            $( $commonfield )+
+                            $( $(#[$commonattrf])? $commonfield )+
                         }
                     };
 
-                    (pub enum $name:ident { $s( $field:tt )+}) => {
-                        pub enum $name {
-                            $( $commonfield )+
-                            $s( $field )+
-                        }
-                    };
-                    (#[derive($s($arg:tt)+)] pub enum $name:ident { $s( $field:tt )+}) => {
-                        #[derive($s($arg)+)]
-                        pub enum $name {
-                            $( $commonfield )+
-                            $s( $field )+
+                    (
+                        $s(#[$attre:meta])*
+                        pub enum $name:ident
+                    ) => {
+                        $(#[$commonattre])*
+                        $s(#[$attre])*
+                        enum $name {
+                            $( $(#[$commonattrf])? $commonfield, )*
                         }
                     };
 
-                    (pub enum $name:ident) => {
-                        pub enum $name {
-                            $( $commonfield, )*
+                    (
+                        $s(#[$attre:meta])*
+                        pub enum $name:ident { 
+                            $s( $s(#[$attrf:meta])? $field:tt )+
                         }
-                    };
-                    (#[derive($s($arg:tt)+)] pub enum $name:ident) => {
-                        #[derive($s($arg)+)]
+                    ) => {
+                        $(#[$commonattre])*
+                        $s(#[$attre])*
                         pub enum $name {
-                            $( $commonfield, )*
+                            $( $(#[$commonattrf])? $commonfield )+
+                            $s( $s(#[$attrf])? $field )+
                         }
                     };
                 }
-            }
+            };
         }
     };
 }

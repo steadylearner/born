@@ -31,45 +31,45 @@
 /// ```
 #[macro_export]
 macro_rules! private_enum {
-    (enum $commonenum:ident { $( $commonfield:tt )+}) => {
+    (
+        $(#[$commonattre:meta])*
+        enum $commonenum:ident { 
+            $( $(#[$commonattrf:meta])? $commonfield:tt )+
+        }
+    ) => {
         nested_macro! {
             ($s:tt) => {
                 macro_rules! $commonenum {
-                    () => {
+                    ($s(#[$attre:meta])*) => {
+                        $(#[$commonattre])*
+                        $s(#[$attre])*
                         enum $commonenum {
-                            $( $commonfield )+
-                        }
-                    };
-                    (#[derive($s($arg:tt)+)]) => {
-                        #[derive($s($arg)+)]
-                        enum $commonenum {
-                            $( $commonfield )+
+                            $( $(#[$commonattrf])? $commonfield )+
                         }
                     };
 
-                    (enum $name:ident { $s( $field:tt )+}) => {
+                    (
+                        $s(#[$attre:meta])*
+                        enum $name:ident
+                    ) => {
+                        $(#[$commonattre])*
+                        $s(#[$attre])*
                         enum $name {
-                            $( $commonfield )+
-                            $s( $field )+
-                        }
-                    };
-                    (#[derive($s($arg:tt)+)] enum $name:ident { $s( $field:tt )+}) => {
-                        #[derive($s($arg)+)]
-                        enum $name {
-                            $( $commonfield )+
-                            $s( $field )+
+                            $( $(#[$commonattrf])? $commonfield, )*
                         }
                     };
 
-                    (enum $name:ident) => {
-                        enum $name {
-                            $( $commonfield, )*
+                    (
+                        $s(#[$attre:meta])*
+                        enum $name:ident { 
+                            $s( $s(#[$attrf:meta])? $field:tt )+
                         }
-                    };
-                    (#[derive($s($arg:tt)+)] enum $name:ident) => {
-                        #[derive($s($arg)+)]
+                    ) => {
+                        $(#[$commonattre])*
+                        $s(#[$attre])*
                         enum $name {
-                            $( $commonfield, )*
+                            $( $(#[$commonattrf])? $commonfield )+
+                            $s( $s(#[$attrf])? $field )+
                         }
                     };
                 }
@@ -77,3 +77,4 @@ macro_rules! private_enum {
         }
     };
 }
+
