@@ -1,6 +1,6 @@
 use born::{
     nested_macro,
-    private_enum,
+    public_enum,
 };
 
 pub fn main() {

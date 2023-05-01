@@ -1,6 +1,6 @@
 use born::{
     nested_macro,
-    private_struct,
+    public_struct,
 };
 
 pub fn main() {
