@@ -293,6 +293,31 @@ PersonBase!(pub struct PersonWithName {
 });
 ```
 
+```rs
+// Cargo.toml
+// born = { git = "https://github.com/steadylearner/born", branch = "master" }
+use born::{nested_macro, public_enum};
+use serde::{Serialize, Deserialize};
+
+public_enum!(
+    #[derive(Debug, Serialize, Deserialize)]
+    pub enum PersonBase {
+        #[serde(rename = "person_type_struct")] 
+        TypeStruct { email: String, name: String },
+        Type,
+    }
+);
+
+PersonBase!(pub enum Person {
+    TypeExtension
+});
+
+PersonBase!(pub enum PersonSerde {
+    #[serde(rename = "person_type_extension")] 
+    TypeExtensionWithSerde
+});
+```
+
 <br>
 
 ## Why not attribute macro?
