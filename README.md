@@ -1,7 +1,7 @@
 [trybuild]: https://github.com/dtolnay/trybuild
 [macrotest]: https://github.com/eupn/macrotest
 
-Reuse(Struct, Enum)
+Reuse common parts of Struct and Enum
 =============
 
 <!-- Include donate button if people find it useful later. -->
@@ -269,7 +269,7 @@ macro_rules! nested_macro {
 }
 ```
 
-- You can also use attributes for the common parts
+- You can also use attributes for the common parts.
 
 ```rust
 // Cargo.toml
