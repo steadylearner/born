@@ -1,3 +1,7 @@
+use crate::{
+    schemas::utc_datetime,
+};
+
 use serde::{
     Deserialize, 
     Serialize, 
@@ -37,25 +41,27 @@ pub struct DevToBlog {
     pub published_timestamp: DateTime<Utc>,
 }
 
-mod utc_datetime {
-    use chrono::{DateTime, TimeZone, Utc};
-    use serde::{Deserialize, Deserializer, Serializer};
+// TODO
+// Extract this?
+// mod utc_datetime {
+//     use chrono::{DateTime, TimeZone, Utc};
+//     use serde::{Deserialize, Deserializer, Serializer};
 
-    const FORMAT: &str = "%Y-%m-%dT%H:%M:%S%.3fZ";
+//     const FORMAT: &str = "%Y-%m-%dT%H:%M:%S%.3fZ";
 
-    pub fn serialize<S>(date: &DateTime<Utc>, serializer: S) -> Result<S::Ok, S::Error>
-    where
-        S: Serializer,
-    {
-        let formatted = date.format(FORMAT).to_string();
-        serializer.serialize_str(&formatted)
-    }
+//     pub fn serialize<S>(date: &DateTime<Utc>, serializer: S) -> Result<S::Ok, S::Error>
+//     where
+//         S: Serializer,
+//     {
+//         let formatted = date.format(FORMAT).to_string();
+//         serializer.serialize_str(&formatted)
+//     }
 
-    pub fn deserialize<'de, D>(deserializer: D) -> Result<DateTime<Utc>, D::Error>
-    where
-        D: Deserializer<'de>,
-    {
-        let s = String::deserialize(deserializer)?;
-        Utc.datetime_from_str(&s, FORMAT).map_err(serde::de::Error::custom)
-    }
-}
+//     pub fn deserialize<'de, D>(deserializer: D) -> Result<DateTime<Utc>, D::Error>
+//     where
+//         D: Deserializer<'de>,
+//     {
+//         let s = String::deserialize(deserializer)?;
+//         Utc.datetime_from_str(&s, FORMAT).map_err(serde::de::Error::custom)
+//     }
+// }
