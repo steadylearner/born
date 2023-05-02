@@ -24,6 +24,7 @@ pub async fn find_blogs() -> Vec<DevToBlog> {
 
 // You can use this with let blogs = BLOGS.get().await;
 // To return something with a handler, refer to this (*blogs).clone() 
+// You can't update this, therefore restart the app if you want to update the blogs to show at your hosting service
 lazy_static! {
     pub static ref BLOGS: AsyncOnce<Vec<DevToBlog>> = AsyncOnce::new(
         async {

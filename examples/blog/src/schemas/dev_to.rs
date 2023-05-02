@@ -29,9 +29,10 @@ pub struct DevToBlog {
     pub comments_count: u16,
     pub public_reactions_count: u16,
     
-    // body_markdown: String,
+    // pub reading_time_minutes: u8,
+    pub body_markdown: String,
+    pub reading_time_minutes: u8,
 
-    // published_timestamp: String,
     #[serde(with = "utc_datetime")]
     pub published_timestamp: DateTime<Utc>,
 }
