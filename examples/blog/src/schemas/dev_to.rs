@@ -16,8 +16,8 @@ use url::{
 // Visit this at the browser to see how the datas are first
 // https://dev.to/api/articles/me/published
 
-#[derive(Debug, Deserialize, Serialize)]
-pub struct DevToArticle {
+#[derive(Debug, Deserialize, Serialize, Clone)]
+pub struct DevToBlog {
     id: u64,
     cover_image: Option<Url>,
     url: Url,
