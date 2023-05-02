@@ -9,3 +9,4 @@ cmp/
 TODO.md
 
 .DS_Store
+.env
