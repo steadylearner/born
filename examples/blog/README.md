@@ -33,4 +33,4 @@ $cargo run --example blog
 
 ## TODO
 
-Make a blog post for this after the deployment of steadylearner.com
+Make a custom repo to deploy steadylearner.com with a frontend framework and update this example with born? Write a blog post from server to deployment without the frontend?
