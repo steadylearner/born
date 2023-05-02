@@ -1,7 +1,12 @@
+extern crate dotenvy_macro;
+
 mod schemas;
 use schemas::user::{
     User,
     CreateUser,
+};
+use schemas::dev_to::{
+    DevToArticle,
 };
 
 // Find the latest version and example here https://github.com/tokio-rs/axum
@@ -12,6 +17,9 @@ use axum::{
 };
 use std::net::SocketAddr;
 
+mod api;
+use api::dev_to::DEV_TO_CLIENT;
+
 // Use these when it is not in examples
 // $cargo run 
 // $cargo watch -x run 
@@ -21,6 +29,18 @@ use std::net::SocketAddr;
 #[tokio::main]
 async fn main() {
     tracing_subscriber::fmt::init();
+
+    // Visit this at the browser to see how the datas are first
+    let response = DEV_TO_CLIENT.get("https://dev.to/api/articles/me/published")
+        .send()
+        .await
+        .unwrap();
+
+    println!("response {:#?}", &response);
+
+    let articles: Vec<DevToArticle> = response.json().await.unwrap();
+    println!("{:#?}", &articles);
+    println!("{:#?}", &articles.len());
 
     let app = Router::new()
         .route("/users", post(create_user));
