@@ -1,0 +1,11 @@
+{% extends "base.html" %}
+
+{% block post %}
+	<h1>
+		{{ post_title }}
+	</h1>
+	<div>
+		{{ body_markdown|markdown }}
+	</div>
+{% endblock post %}
+

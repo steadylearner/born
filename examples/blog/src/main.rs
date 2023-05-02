@@ -18,6 +18,8 @@ use handlers::blog::{
     find_blogs,
     find_blogs_by_title,
     find_blog_by_slug,
+
+    render_blog_post_template,
 };
 
 #[tokio::main]async fn main() {
@@ -35,6 +37,12 @@ use handlers::blog::{
         )
         .route(
             "/api/blog/:slug", get(find_blog_by_slug)
+        )
+        .route(
+            // $curl "http://localhost:3000/blog/how-to-make-a-gui-translator-app-with-python-tkinter-56mi"
+            // $curl "http://localhost:3000/blog/<slug>"
+            // Or visit at the browser
+            "/blog/:slug", get(render_blog_post_template)
         );
 
     let addr = SocketAddr::from(([127, 0, 0, 1], 3000));

@@ -7,6 +7,7 @@ use axum::{
     http::StatusCode,
     Json,
     extract::Path,
+    response::{Html, IntoResponse},
 };
 
 // $curl http://localhost:3000/api/blogs
@@ -78,3 +79,44 @@ pub async fn find_blog_by_slug(
 //         (StatusCode::OK, Json(None))
 //     }
 // }
+
+use askama::Template;
+
+// Close the editor when you update some of fields. It is hard to use because the error like this shows up no field `post_title` on type `&BlogPostTemplate<'a>` // This doesn't work well when edited
+#[derive(Template)]
+#[template(path = "post.html")]
+struct BlogPostTemplate<'a> {
+    post_title: &'a str,
+    body_markdown: &'a str,
+}
+
+// mod filters {
+
+// }
+
+pub async fn render_blog_post_template(Path(slug): Path<String>) -> impl IntoResponse {
+    let blogs = BLOGS.get().await; 
+
+    let blog: Vec<&DevToBlog> = blogs
+        .into_iter()
+        .filter(|blog| blog.slug == slug)
+        .collect();
+
+    // println!("{:#?}", blog);
+
+    if let Some(blog_by_slug) = blog.first().cloned() {
+        let template = BlogPostTemplate{
+            post_title: &blog_by_slug.title,
+            body_markdown: &blog_by_slug.body_markdown,
+        };
+
+        match template.render() {
+            Ok(html) => Html(html).into_response(),
+            Err(_) => (StatusCode::INTERNAL_SERVER_ERROR, "try again later").into_response()
+        }
+    } else {
+        return (StatusCode::NOT_FOUND, "404 not found").into_response();
+    }
+
+   
+}
