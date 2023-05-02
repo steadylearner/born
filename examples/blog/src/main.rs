@@ -10,9 +10,7 @@ use axum::{
 };
 use std::net::SocketAddr;
 
-mod schemas;
 mod api;
-
 mod handlers;
 use handlers::blog::{
     find_blogs,
@@ -22,6 +20,8 @@ use handlers::blog::{
     render_blogs,
     render_blog_post_template,
 };
+mod schemas;
+mod templates;
 
 #[tokio::main]async fn main() {
     tracing_subscriber::fmt::init();

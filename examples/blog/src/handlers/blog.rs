@@ -1,6 +1,10 @@
 use crate::{
-    schemas::dev_to::DevToBlog, 
     api::blog::BLOGS,
+    schemas::dev_to::DevToBlog, 
+    templates::blog::{
+        BlogPostsTemplate,
+        BlogPostTemplate,
+    },
 };
 
 use axum::{
@@ -10,6 +14,7 @@ use axum::{
     response::{Html, IntoResponse},
 };
 
+// This should be here to this work
 use askama::Template;
 
 // $curl http://localhost:3000/api/blogs
@@ -24,7 +29,6 @@ pub async fn find_blogs() -> (StatusCode, Json<Vec<DevToBlog>>) {
 // Use this for search at the frontend?
 pub async fn find_blogs_by_title(
     Path(title): Path<String>
-// ) -> (StatusCode, Json<Option<DevToBlog>>) {
 ) -> (StatusCode, Json<Vec<DevToBlog>>) {
     // println!("{:#?}", title);
     let blogs = BLOGS.get().await; 
@@ -82,25 +86,6 @@ pub async fn find_blog_by_slug(
 //     }
 // }
 
-#[derive(Template)]
-#[template(path = "posts.html")]
-pub struct BlogPostsTemplate<'a> {
-    pub title: &'a str,
-    pub blogs: &'a Vec<DevToBlog>,
-}
-
-// Close the editor when you update some of fields. It is hard to use because the error like this shows up no field `post_title` on type `&BlogPostTemplate<'a>` // This doesn't work well when edited
-#[derive(Template)]
-#[template(path = "post.html")]
-struct BlogPostTemplate<'a> {
-    title: &'a str,
-    body_markdown: &'a str,
-}
-
-// mod filters {
-
-// }
-
 pub async fn render_blogs() -> impl IntoResponse {
     let blogs = BLOGS.get().await; 
 
@@ -113,12 +98,10 @@ pub async fn render_blogs() -> impl IntoResponse {
         Ok(html) => Html(html).into_response(),
         Err(_) => (StatusCode::INTERNAL_SERVER_ERROR, "Internal server error").into_response()
     }
-
-   
 }
 
-
 pub async fn render_blog_post_template(Path(slug): Path<String>) -> impl IntoResponse {
+    
     let blogs = BLOGS.get().await; 
 
     let blog: Vec<&DevToBlog> = blogs

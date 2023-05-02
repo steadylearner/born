@@ -1,8 +1,14 @@
 # Born blog example
 
-WIP, it will have a blog and will be used for steadylearner.com
+It will have a blog? and you will be able to find a production example at steadylearner.com
 
 ## How to test
+
+Make a .env file with this https://dev.to/settings/extensions and you can make a credential.
+
+```env
+DEV_TO=<YOURS>
+```
 
 Use the command below to test.
 
