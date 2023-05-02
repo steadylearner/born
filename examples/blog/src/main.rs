@@ -1,5 +1,6 @@
 extern crate dotenvy_macro;
 
+use tower_http::services::ServeDir;
 use axum::{
     routing::{
         get, 
@@ -23,6 +24,9 @@ use handlers::blog::{
     tracing_subscriber::fmt::init();
 
     let app = Router::new()
+        // $curl "http://localhost:3000/static/test.txt"
+        // .nest_service("/static", ServeDir::new("static"))
+        .nest_service("/static", ServeDir::new("examples/blog/static"))
         .route(
             "/api/blogs", get(find_blogs)
         )
@@ -32,7 +36,6 @@ use handlers::blog::{
         .route(
             "/api/blog/:slug", get(find_blog_by_slug)
         );
-        // .route("/api/blog/title/:title", get(find_blog_by_title));
 
     let addr = SocketAddr::from(([127, 0, 0, 1], 3000));
     axum::Server::bind(&addr)
