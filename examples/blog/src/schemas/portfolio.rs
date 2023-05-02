@@ -5,6 +5,8 @@ use crate::{
     }
 };
 
+use uuid::Uuid;
+
 use serde::{Deserialize, Serialize};
 use born::{
     public_struct,
@@ -37,14 +39,16 @@ PortfolioBase!(
 PortfolioBase!(
     #[derive(Serialize)]
     pub struct EditPorfolioRequest {
-        pub id: u64,
+        // pub id: u64,
+        pub id: Uuid,
     }
 );
 
 PortfolioBase!(
     #[derive(Debug, Deserialize, Serialize, Clone)]
     pub struct Porfolio{
-        pub id: u64,
+        // pub id: u64,
+        pub id: Uuid,
         #[serde(with = "utc_datetime")]
         pub created_at: DateTime<Utc>,
         #[serde(with = "optional_utc_datetime")]
