@@ -367,6 +367,8 @@ $curl -X POST \
    http://localhost:3000/users
 ```
 
+You can also use blog example.
+
 #### License
 
 <sup>

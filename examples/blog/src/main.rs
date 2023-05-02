@@ -5,7 +5,6 @@ use schemas::dev_to::{
     DevToBlog,
 };
 
-// Find the latest version and example here https://github.com/tokio-rs/axum
 use axum::{
     routing::{
         get, 
@@ -13,26 +12,28 @@ use axum::{
     },
     http::StatusCode,
     Json, Router,
+    extract::Path,
 };
 use std::net::SocketAddr;
 
 mod api;
 use api::blog::{BLOGS};
 
-// Use these when it is not in examples
-// $cargo run 
-// $cargo watch -x run 
-
-// Use these when you test
-// $cargo run --example blog
-#[tokio::main]
-async fn main() {
+#[tokio::main]async fn main() {
     tracing_subscriber::fmt::init();
 
     let app = Router::new()
-        .route("/blogs", get(blogs));
+        .route(
+            "/api/blogs", get(blogs)
+        )
+        .route(
+            "/api/blogs/:title", get(find_blogs_by_title)
+        )
+        .route(
+            "/api/blog/:slug", get(find_blog_by_slug)
+        );
+        // .route("/api/blog/title/:title", get(find_blog_by_title));
 
-    // run our app with hyper
     let addr = SocketAddr::from(([127, 0, 0, 1], 3000));
     axum::Server::bind(&addr)
         .serve(app.into_make_service())
@@ -40,24 +41,72 @@ async fn main() {
         .unwrap();
 }
 
-// $curl http://localhost:3000/blogs
+// $curl http://localhost:3000/api/blogs
 async fn blogs() -> (StatusCode, Json<Vec<DevToBlog>>) {
     let blogs = BLOGS.get().await; 
 
     (StatusCode::OK, Json((*blogs).clone()))
 }
 
-// $curl -X POST \
-//   -H "Content-Type: application/json" \
-//   -d '{ "username": "username" }' \
-//   http://localhost:3000/users
-// async fn create_user(
-//     Json(payload): Json<CreateUser>,
-// ) -> (StatusCode, Json<User>) {
-//     let user = User {
-//         id: 1,
-//         username: payload.username,
-//     };
+// $curl http://localhost:3000/api/blogs/<title>
+// $curl "http://localhost:3000/api/blogs/title/How%to%use%Rust%web%framework%Warp"
+// Use this for search?
+async fn find_blogs_by_title(
+    Path(title): Path<String>
+// ) -> (StatusCode, Json<Option<DevToBlog>>) {
+) -> (StatusCode, Json<Vec<DevToBlog>>) {
+    // println!("{:#?}", title);
+    let blogs = BLOGS.get().await; 
 
-//     (StatusCode::CREATED, Json(user))
+    let blogs_by_title: Vec<DevToBlog> = blogs
+        .into_iter()
+        .filter(|blog| blog.title.to_lowercase().contains(&title.to_lowercase().replace("%", " ")))
+        .map(|blog| blog.clone())
+        .collect();
+
+    (StatusCode::OK, Json(blogs_by_title))
+}
+
+// $curl http://localhost:3000/api/blog/<slug>
+async fn find_blog_by_slug(
+    Path(slug): Path<String>
+) -> (StatusCode, Json<Option<DevToBlog>>) {
+    println!("{:#?}", slug);
+    let blogs = BLOGS.get().await; 
+
+    let blog: Vec<&DevToBlog> = blogs
+        .into_iter()
+        .filter(|blog| blog.slug == slug)
+        .collect();
+
+    // println!("{:#?}", blog);
+
+    if let Some(blog_by_slug) = blog.first().cloned() {
+        (StatusCode::OK, Json(Some(blog_by_slug.clone())))
+    } else {
+        (StatusCode::OK, Json(None))
+    }
+}
+
+// $curl http://localhost:3000/api/blog/<title>
+// $curl "http://localhost:3000/api/blog/title/How%to%use%Rust%web%framework%Warp"
+// Use this for search?
+// async fn find_blog_by_title(
+//     Path(title): Path<String>
+// ) -> (StatusCode, Json<Option<DevToBlog>>) {
+//     println!("{:#?}", title);
+//     let blogs = BLOGS.get().await; 
+
+//     let blogs_by_title: Vec<&DevToBlog> = blogs
+//         .into_iter()
+//         .filter(|blog| blog.title == title.replace("%", " "))
+//         .collect();
+
+//     println!("{:#?}", blog);
+
+//     if let Some(blog_by_title) = blog.first().cloned() {
+//         (StatusCode::OK, Json(Some(blog_by_title.clone())))
+//     } else {
+//         (StatusCode::OK, Json(None))
+//     }
 // }

@@ -18,22 +18,22 @@ use url::{
 
 #[derive(Debug, Deserialize, Serialize, Clone)]
 pub struct DevToBlog {
-    id: u64,
-    cover_image: Option<Url>,
-    url: Url,
-    title: String,
-    slug: String,
+    pub id: u64,
+    pub cover_image: Option<Url>,
+    pub url: Url,
+    pub title: String,
+    pub slug: String,
     // path: String,
-    description: String,
-    tag_list: Vec<String>,
-    comments_count: u16,
-    public_reactions_count: u16,
+    pub description: String,
+    pub tag_list: Vec<String>,
+    pub comments_count: u16,
+    pub public_reactions_count: u16,
     
     // body_markdown: String,
 
     // published_timestamp: String,
     #[serde(with = "utc_datetime")]
-    published_timestamp: DateTime<Utc>,
+    pub published_timestamp: DateTime<Utc>,
 }
 
 mod utc_datetime {

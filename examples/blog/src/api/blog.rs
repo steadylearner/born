@@ -22,10 +22,12 @@ pub async fn find_blogs() -> Vec<DevToBlog> {
     blogs
 }
 
-// You can use this with let blogs = BLOGS.get().await; 
+// You can use this with let blogs = BLOGS.get().await;
+// To return something with a handler, refer to this (*blogs).clone() 
 lazy_static! {
     pub static ref BLOGS: AsyncOnce<Vec<DevToBlog>> = AsyncOnce::new(
         async {
+            // Read your blogs from markdown files or use database connection or whatever instead if you want to 
             let blogs = find_blogs().await;
             
             blogs
