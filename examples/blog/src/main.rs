@@ -30,7 +30,9 @@ use api::dev_to::DEV_TO_CLIENT;
 async fn main() {
     tracing_subscriber::fmt::init();
 
-    // Visit this at the browser to see how the datas are first
+    // TODO
+    // Extrac this https://dev.to/api to a static variable
+    // https://dev.to/api
     let response = DEV_TO_CLIENT.get("https://dev.to/api/articles/me/published")
         .send()
         .await
@@ -38,6 +40,7 @@ async fn main() {
 
     println!("response {:#?}", &response);
 
+    // Save this to a hashmap and use a route to show them.
     let articles: Vec<DevToArticle> = response.json().await.unwrap();
     println!("{:#?}", &articles);
     println!("{:#?}", &articles.len());

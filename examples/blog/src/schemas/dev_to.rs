@@ -8,12 +8,19 @@ use chrono::{
     DateTime, 
     Utc
 };
+use url::{
+    // Use as_str method again to read entire url again
+    Url,
+};
+
+// Visit this at the browser to see how the datas are first
+// https://dev.to/api/articles/me/published
 
 #[derive(Debug, Deserialize, Serialize)]
 pub struct DevToArticle {
     id: u64,
-    cover_image: Option<String>,
-    url: String,
+    cover_image: Option<Url>,
+    url: Url,
     title: String,
     slug: String,
     // path: String,
