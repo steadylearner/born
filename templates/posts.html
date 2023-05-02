@@ -1,0 +1,19 @@
+<!DOCTYPE html> 
+<html>
+	<head> 
+		<title> {{ title }} </title>
+	</head>
+
+	<body>
+		<h1>
+			{{ title }}
+		</h1>
+		<div class="links">
+			<ul>
+			{% for blog in blogs %}
+				<li><a href="/blog/{{ blog.slug }}">{{ blog.title }}</a></li>
+			{% endfor %}
+		   </ul>
+		</div>
+	</body>
+</html>

@@ -10,6 +10,8 @@ use axum::{
     response::{Html, IntoResponse},
 };
 
+use askama::Template;
+
 // $curl http://localhost:3000/api/blogs
 pub async fn find_blogs() -> (StatusCode, Json<Vec<DevToBlog>>) {
     let blogs = BLOGS.get().await; 
@@ -80,19 +82,41 @@ pub async fn find_blog_by_slug(
 //     }
 // }
 
-use askama::Template;
+#[derive(Template)]
+#[template(path = "posts.html")]
+pub struct BlogPostsTemplate<'a> {
+    pub title: &'a str,
+    pub blogs: &'a Vec<DevToBlog>,
+}
 
 // Close the editor when you update some of fields. It is hard to use because the error like this shows up no field `post_title` on type `&BlogPostTemplate<'a>` // This doesn't work well when edited
 #[derive(Template)]
 #[template(path = "post.html")]
 struct BlogPostTemplate<'a> {
-    post_title: &'a str,
+    title: &'a str,
     body_markdown: &'a str,
 }
 
 // mod filters {
 
 // }
+
+pub async fn render_blogs() -> impl IntoResponse {
+    let blogs = BLOGS.get().await; 
+
+    let template = BlogPostsTemplate{
+        title: "Blogs",
+        blogs: &blogs,
+    };
+
+    match template.render() {
+        Ok(html) => Html(html).into_response(),
+        Err(_) => (StatusCode::INTERNAL_SERVER_ERROR, "Internal server error").into_response()
+    }
+
+   
+}
+
 
 pub async fn render_blog_post_template(Path(slug): Path<String>) -> impl IntoResponse {
     let blogs = BLOGS.get().await; 
@@ -106,13 +130,13 @@ pub async fn render_blog_post_template(Path(slug): Path<String>) -> impl IntoRes
 
     if let Some(blog_by_slug) = blog.first().cloned() {
         let template = BlogPostTemplate{
-            post_title: &blog_by_slug.title,
+            title: &blog_by_slug.title,
             body_markdown: &blog_by_slug.body_markdown,
         };
 
         match template.render() {
             Ok(html) => Html(html).into_response(),
-            Err(_) => (StatusCode::INTERNAL_SERVER_ERROR, "try again later").into_response()
+            Err(_) => (StatusCode::INTERNAL_SERVER_ERROR, "Internal server error").into_response()
         }
     } else {
         return (StatusCode::NOT_FOUND, "404 not found").into_response();
