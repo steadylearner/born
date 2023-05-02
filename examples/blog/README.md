@@ -1,6 +1,6 @@
 # Born blog example
 
-It will have a blog? and you will be able to find a production example at steadylearner.com
+It will have a blog example based on this? and you will be able to find a production example at steadylearner.com
 
 ## How to test
 
