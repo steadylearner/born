@@ -297,6 +297,7 @@ PersonBase!(pub struct PersonWithName {
 ```rs
 // Cargo.toml
 // born = { git = "https://github.com/steadylearner/born", branch = "master" }
+
 use born::{nested_macro, public_enum};
 use serde::{Serialize, Deserialize};
 
