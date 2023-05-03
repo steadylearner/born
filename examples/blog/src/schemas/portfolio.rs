@@ -33,12 +33,12 @@ public_struct!(
 
 PortfolioBase!(
     #[derive(Deserialize)]
-    pub struct CreatePorfolioRequest
+    pub struct CreatePortfolioRequest
 );
 
 PortfolioBase!(
     #[derive(Deserialize)]
-    pub struct EditPorfolioRequest {
+    pub struct EditPortfolioRequest {
         // pub id: u64,
         pub id: Uuid,
     }
@@ -46,7 +46,7 @@ PortfolioBase!(
 
 PortfolioBase!(
     #[derive(Debug, Serialize, Clone)]
-    pub struct PorfolioInDB{
+    pub struct PortfolioInDB{
         // pub id: u64,
         pub id: Uuid,
         #[serde(with = "utc_datetime")]
