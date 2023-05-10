@@ -368,7 +368,7 @@ $curl -X POST \
    http://localhost:3000/users
 ```
 
-You can also use blog example.
+You can also use [the blog](/examples/blog/) example. You can visit the [Steadylearner](https://www.steadylearner.com) website based on it also.
 
 #### License
 
